@@ -1,12 +1,14 @@
 import {
   BaseFilter,
   DduItem,
+  ItemHighlight,
   SourceOptions,
 } from "https://deno.land/x/ddu_vim@v3.10.3/types.ts";
 import { Denops } from "https://deno.land/x/ddu_vim@v3.10.3/deps.ts";
 
 type Params = {
   highlightMatched: string;
+  highlightGreedy: boolean;
 };
 
 export function splitUserInput(input: string): string[] {
@@ -56,19 +58,39 @@ export class Filter extends BaseFilter<Params> {
       return Promise.resolve(items);
     }
 
-    // Calculate matched position.
+    // Calculate matched position below.
+    const pushHighlightInfo = (
+      item: { highlights: ItemHighlight[]; matcherKey: string },
+      match: RegExpExecArray,
+    ) => {
+      item.highlights.push({
+        name: "matched",
+        hl_group: args.filterParams.highlightMatched,
+        col: strlen(item.matcherKey.slice(0, match.index)) + 1,
+        width: strlen(match[0]),
+      });
+    };
+
     const hlitems = regexps.reduce(
-      (items, re) =>
-        items.map((item) => {
-          const match = re.exec(item.matcherKey)!;
-          item.highlights.push({
-            name: "matched",
-            hl_group: args.filterParams.highlightMatched,
-            col: strlen(item.matcherKey.slice(0, match.index)) + 1,
-            width: strlen(match[0]),
-          })
-          return item;
-        }),
+      (items, re) => {
+        if (args.filterParams.highlightGreedy) {
+          items.map((item) => {
+            const r = new RegExp(re, re.flags + "g");
+            for (;;) { // Search for all the matches.
+              const match = r.exec(item.matcherKey);
+              if (!match) {
+                break;
+              }
+              pushHighlightInfo(item, match);
+            }
+          });
+        } else {
+          items.map((item) => {
+            pushHighlightInfo(item, re.exec(item.matcherKey)!);
+          });
+        }
+        return items;
+      },
       items.map((item) => {
         return { ...item, highlights: item.highlights ?? [] };
       }),
@@ -79,6 +101,7 @@ export class Filter extends BaseFilter<Params> {
   override params(): Params {
     return {
       highlightMatched: "",
+      highlightGreedy: false,
     };
   }
 }
