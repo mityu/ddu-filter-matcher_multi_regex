@@ -39,13 +39,18 @@ export class Filter extends BaseFilter<Params> {
       return Promise.resolve(args.items);
     }
 
-    let regexps: RegExp[];
-    try {
+    const buildRegexes = () => {
       const ignoreCase = args.sourceOptions.ignoreCase &&
         !(args.sourceOptions.smartCase && /[A-Z]/.test(args.input));
       const flags = ignoreCase ? "i" : "";
-      regexps = matchers.map((v) => new RegExp(v, flags));
-    } catch (_) {
+      try {
+        return matchers.map((v) => new RegExp(v, flags));
+      } catch (_) {
+        // Ignore
+      }
+    }
+    const regexps = buildRegexes();
+    if (!regexps) {
       return Promise.resolve(args.items);
     }
 
