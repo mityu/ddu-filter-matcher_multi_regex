@@ -1,0 +1,83 @@
+*ddu-filter-matcher_multi_regex.txt*	Multiple regex matcher for ddu.vim
+
+Author: mityu <mityu.mail@gmail.com>
+License: MIT License
+
+==============================================================================
+CONTENTS			*ddu-filter-matcher_multi_regex-contents*
+
+REQUIREMENTS			|ddu-filter-matcher_multi_regex-requirements|
+INTRODUCTION			|ddu-filter-matcher_multi_regex-introduction|
+PARAMS				|ddu-filter-matcher_multi_regex-params|
+EXAMPLE				|ddu-filter-matcher_multi_regex-example|
+
+
+==============================================================================
+REQUIREMENTS			*ddu-filter-matcher_multi_regex-requirements*
+
+- denops.vim
+	https://github.com/vim-denops/denops.vim
+
+- ddu.vim
+	https://github.com/Shougo/ddu.vim
+
+
+==============================================================================
+INTRODUCTION			*ddu-filter-matcher_multi_regex-introduction*
+
+
+This is a ddu.vim matcher that treats a user input as space-separated list of
+regexes and filter items with the regexes using RegExp object in JavaScript.
+Items only matched all the regexes are left.
+
+				*ddu-filter-matcher_multi_regex-limitation*
+Since this matcher regards spaces in a user input as the separator of regexes,
+spaces and backslashes followed by spaces are treated in a different way from
+the way JavaScript's regex does.  First, to include spaces in regex pattern,
+you need to escape them.  Second, the one backslash followed by spaces will be
+removed.  For example:
+
+	User input			Filter RegExp(es)~
+	-----------------------------------------------------------
+	'a b'				/a/ and /b/
+
+	'a\ b'				/a b/
+
+	'a\\ b'				/a\\/ and /b/
+
+	'a\  b'				/a / and /b/
+
+	'a\\\  b'			/a\\ / and /b/
+
+Except for these behavior, the user input works in the same way of
+JavaScript's regex.
+
+
+==============================================================================
+PARAMS				*ddu-filter-matcher_multi_regex-params*
+
+			*ddu-filter-matcher_multi_regex-param-highlightMatched*
+highlightMatched (string)
+	The highlight group to highlight matched texts.
+	Note that if you set this parameter, the filtering will get a bit
+	slower due to the overhead of extraction of matched texts.
+
+	Default: ""
+
+
+==============================================================================
+EXAMPLE				*ddu-filter-matcher_multi_regex-example*
+
+- Basic configuration: >
+	call ddu#custom#patch_global('sourceOptions', #{
+	  \   _: #{matchers: ['matcher_multi_regex']}
+	  \ })
+
+- Enable matched text highlights: >
+	call ddu#custom#patch_global('filterParams', #{
+	  \   matcher_multi_regex: #{
+	  \     highlightMatched: 'Search',
+	  \   }
+	  \ })
+
+vim:tw=78:fo=tcq2mM:ts=8:ft=help:norl
