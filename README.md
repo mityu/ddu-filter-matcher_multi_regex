@@ -36,6 +36,19 @@ call ddu#custom#patch_global('filterParams', #{
 
 **NOTE** This makes the filtering a bit slower due to the overhead of extraction of matched texts.
 
+
+- Enable greedy matched text highlights:
+
+```vim
+call ddu#custom#patch_global('filterParams', #{
+  \   matcher_multi_regex: #{
+  \     highlightGreedy: v:true,
+  \   }
+  \ })
+```
+
+**NOTE** This also makes the filtering slower due to the overhead of extraction of all the matched texts.
+
 ## Similar projects
 
 - [kamecha/ddu-filter-matcher\_regex](https://github.com/kamecha/ddu-filter-matcher_regex/)

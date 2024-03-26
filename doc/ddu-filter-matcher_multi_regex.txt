@@ -64,6 +64,15 @@ highlightMatched (string)
 
 	Default: ""
 
+			*ddu-filter-matcher_multi_regex-param-highlightGreedy*
+highlightGreedy (boolean)
+	Highlight all the matched position for each regex.  Only have effect
+	when |ddu-filter-matched-param-highlightMatched| is set to non empty
+	value.  Note that this also make filtering slower due to the overhead
+	of the extraction of all the matched texts.
+
+	Default: false
+
 
 ==============================================================================
 EXAMPLE				*ddu-filter-matcher_multi_regex-example*
@@ -77,6 +86,13 @@ EXAMPLE				*ddu-filter-matcher_multi_regex-example*
 	call ddu#custom#patch_global('filterParams', #{
 	  \   matcher_multi_regex: #{
 	  \     highlightMatched: 'Search',
+	  \   }
+	  \ })
+
+- Enable greedy matched text highlights: >
+	call ddu#custom#patch_global('filterParams', #{
+	  \   matcher_multi_regex: #{
+	  \     highlightGreedy: v:true,
 	  \   }
 	  \ })
 
