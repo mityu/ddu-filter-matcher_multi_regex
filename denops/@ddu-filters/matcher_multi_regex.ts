@@ -1,9 +1,9 @@
 import {
   BaseFilter,
   DduItem,
+  type Denops,
   ItemHighlight,
   SourceOptions,
-  type Denops
 } from "jsr:@shougo/ddu-vim@~5.0.0/types";
 
 type Params = {
@@ -48,7 +48,7 @@ export class Filter extends BaseFilter<Params> {
       } catch (_) {
         // Ignore
       }
-    }
+    };
     const regexps = buildRegexes();
     if (!regexps) {
       return Promise.resolve(args.items);
