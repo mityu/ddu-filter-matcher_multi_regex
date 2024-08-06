@@ -2,7 +2,7 @@ import {
   removeBackslashBeforeSpace,
   splitUserInput,
 } from "./matcher_multi_regex.ts";
-import { assertEquals } from "https://deno.land/std@0.220.1/assert/mod.ts";
+import { assertEquals } from "jsr:@std/assert@~1.0.2";
 
 Deno.test("splitUserInput", async (t) => {
   await t.step("splits input by space(s)", () => {

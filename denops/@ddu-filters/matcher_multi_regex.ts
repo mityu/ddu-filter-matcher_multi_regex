@@ -3,8 +3,8 @@ import {
   DduItem,
   ItemHighlight,
   SourceOptions,
-} from "https://deno.land/x/ddu_vim@v3.10.3/types.ts";
-import { Denops } from "https://deno.land/x/ddu_vim@v3.10.3/deps.ts";
+  type Denops
+} from "jsr:@shougo/ddu-vim@~5.0.0/types";
 
 type Params = {
   highlightMatched: string;
