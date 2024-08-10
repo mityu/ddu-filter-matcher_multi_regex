@@ -81,12 +81,14 @@ export class Filter extends BaseFilter<Params> {
         if (args.filterParams.highlightGreedy) {
           items.map((item) => {
             const r = new RegExp(re, re.flags + "g");
+            let prevMatchIndex = -1;
             for (;;) { // Search for all the matches.
               const match = r.exec(item.matcherKey);
-              if (!match) {
+              if (!match || match.index === prevMatchIndex) {
                 break;
               }
               pushHighlightInfo(item, match);
+              prevMatchIndex = match.index;
             }
           });
         } else {
