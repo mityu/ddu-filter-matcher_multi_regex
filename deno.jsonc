@@ -1,7 +1,7 @@
 {
   "lock": false,
   "tasks": {
-    "check": "deno check denops/**/*.ts",
+    "check": "deno check denops",
     "lint": "deno lint denops",
     "lint-fix": "deno lint --fix denops",
     "fmt": "deno fmt denops",
