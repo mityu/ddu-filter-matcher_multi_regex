@@ -2,9 +2,9 @@ import {
   DduItem,
   ItemHighlight,
   SourceOptions,
-} from "jsr:@shougo/ddu-vim@~6.2.0/types";
-import { BaseFilter } from "jsr:@shougo/ddu-vim@~6.2.0/filter";
-import type { Denops } from "jsr:@denops/std@~7.2.0";
+} from "jsr:@shougo/ddu-vim@~10.0.0/types";
+import { BaseFilter } from "jsr:@shougo/ddu-vim@~10.0.0/filter";
+import type { Denops } from "jsr:@denops/std@~7.4.0";
 
 type Params = {
   highlightMatched: string;
