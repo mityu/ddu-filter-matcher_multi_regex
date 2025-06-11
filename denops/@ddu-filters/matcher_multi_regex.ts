@@ -65,13 +65,14 @@ export class Filter extends BaseFilter<Params> {
 
     // Calculate matched position below.
     const pushHighlightInfo = (
-      item: { highlights: ItemHighlight[]; matcherKey: string },
+      item: { highlights: ItemHighlight[]; },
+      matchedText: string,
       match: RegExpExecArray,
     ) => {
       item.highlights.push({
         name: "matched",
         hl_group: args.filterParams.highlightMatched,
-        col: strlen(item.matcherKey.slice(0, match.index)) + 1,
+        col: strlen(matchedText.slice(0, match.index)) + 1,
         width: strlen(match[0]),
       });
     };
@@ -80,20 +81,22 @@ export class Filter extends BaseFilter<Params> {
       (items, re) => {
         if (args.filterParams.highlightGreedy) {
           items.map((item) => {
+            const displayText = item.display ?? item.matcherKey;
             const r = new RegExp(re, re.flags + "g");
             let prevMatchIndex = -1;
             for (;;) { // Search for all the matches.
-              const match = r.exec(item.matcherKey);
+              const match = r.exec(displayText);
               if (!match || match.index === prevMatchIndex) {
                 break;
               }
-              pushHighlightInfo(item, match);
+              pushHighlightInfo(item, displayText, match);
               prevMatchIndex = match.index;
             }
           });
         } else {
           items.map((item) => {
-            pushHighlightInfo(item, re.exec(item.matcherKey)!);
+            const displayText = item.display ?? item.matcherKey;
+            pushHighlightInfo(item, displayText, re.exec(displayText)!);
           });
         }
         return items;
