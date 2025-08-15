@@ -2,8 +2,8 @@ import {
   DduItem,
   ItemHighlight,
   SourceOptions,
-} from "jsr:@shougo/ddu-vim@~10.3.0/types";
-import { BaseFilter } from "jsr:@shougo/ddu-vim@~10.3.0/filter";
+} from "jsr:@shougo/ddu-vim@~10.4.0/types";
+import { BaseFilter } from "jsr:@shougo/ddu-vim@~10.4.0/filter";
 import type { Denops } from "jsr:@denops/std@~7.6.0";
 
 type Params = {
