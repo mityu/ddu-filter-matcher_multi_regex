@@ -4,7 +4,7 @@ import {
   SourceOptions,
 } from "jsr:@shougo/ddu-vim@~10.4.0/types";
 import { BaseFilter } from "jsr:@shougo/ddu-vim@~10.4.0/filter";
-import type { Denops } from "jsr:@denops/std@~7.6.0";
+import type { Denops } from "jsr:@denops/std@~8.0.0";
 
 type Params = {
   highlightMatched: string;
