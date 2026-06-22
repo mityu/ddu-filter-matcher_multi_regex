@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Setup repo
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Update dependency
         uses: hasundue/molt-action@v1
